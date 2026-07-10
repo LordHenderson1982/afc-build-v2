@@ -196,3 +196,34 @@ function sendMessage($chatId, $text, $botToken) {
 function handleInlineQuery($inlineQuery, $botToken) {
     // Not implemented
 }
+
+/**
+ * Register bot commands (run once)
+ */
+function registerCommands($botToken) {
+    $commands = json_encode([
+        ['command' => 'start', 'description' => 'Show main menu'],
+        ['command' => 'link', 'description' => 'Link your WHMCS account'],
+        ['command' => 'balance', 'description' => 'Check account balance'],
+        ['command' => 'invoices', 'description' => 'View invoices'],
+        ['command' => 'services', 'description' => 'View hosting services'],
+        ['command' => 'domains', 'description' => 'View domains'],
+        ['command' => 'help', 'description' => 'Show help']
+    ]);
+    
+    $url = "https://api.telegram.org/bot{$botToken}/setMyCommands";
+    $data = ['commands' => $commands];
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_exec($ch);
+    curl_close($ch);
+}
+
+// Register commands on first run (can be called manually)
+if (isset($_GET['register_commands'])) {
+    registerCommands($botToken);
+    exit('Commands registered');
+}
