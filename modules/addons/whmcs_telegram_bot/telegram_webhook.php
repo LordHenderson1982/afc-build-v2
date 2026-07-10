@@ -52,7 +52,8 @@ if (isset($update['message'])) {
     $username = $msg['from']['username'] ?? '';
     
     // DEBUG: Show what we received
-    sendMessage($chatId, "DEBUG: text='$text' start_param='" . ($update['start_parameter'] ?? '') . "'", $botToken);
+$fullUpdate = json_encode($update);
+sendMessage($chatId, "DEBUG update: " . substr($fullUpdate, 0, 500), $botToken);
     
     // Check for deep link start parameter
     if (!empty($update['start_parameter']) && strpos($update['start_parameter'], 'link_') === 0) {
