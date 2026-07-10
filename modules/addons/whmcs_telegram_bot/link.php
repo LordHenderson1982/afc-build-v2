@@ -191,16 +191,17 @@ $clientName = trim($clientName) ?: 'Client';
                 <strong>Logged in as:</strong> <?= htmlspecialchars($clientName) ?><br>
                 <strong>Email:</strong> <?= htmlspecialchars($client['email'] ?? 'N/A') ?>
             </div>
-            <p>Click the button below to open Telegram and link your account:</p>
-            <a href="<?= htmlspecialchars($linkUrl) ?>" class="telegram-btn">🔗 Open Telegram to Link</a>
+            <p>Click the button below to open Telegram, then send this command:</p>
+            <div class="link-box"><?= htmlspecialchars($linkCommand) ?></div>
+            <a href="https://t.me/<?= htmlspecialchars($botUsername) ?>" class="telegram-btn" target="_blank">📱 Open Telegram Bot</a>
             
             <div class="info" style="margin-top: 20px;">
-                <strong>Having trouble?</strong>
+                <strong>Instructions:</strong>
                 <ol class="steps">
-                    <li>Make sure you have Telegram installed</li>
-                    <li>Click the button above</li>
-                    <li>Send /start to the bot if it doesn't respond automatically</li>
-                    <li>The link expires in 15 minutes</li>
+                    <li>Click "Open Telegram Bot" above</li>
+                    <li>Paste this command in the chat: <code><?= htmlspecialchars($linkCommand) ?></code></li>
+                    <li>Send it to the bot</li>
+                    <li>The token expires in 15 minutes</li>
                 </ol>
             </div>
         
