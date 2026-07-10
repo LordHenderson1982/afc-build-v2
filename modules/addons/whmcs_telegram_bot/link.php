@@ -46,12 +46,19 @@ if (!empty($botToken)) {
 // Get session client ID (from WHMCS session or parameter)
 $clientId = 0;
 
-// Try to get from WHMCS session (if available)
+// Try to get from WHMCS session
+// WHMCS uses 'uid' or 'client-login' session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Try different session variables WHMCS might use
 if (isset($_SESSION['uid']) && !empty($_SESSION['uid'])) {
     $clientId = (int)$_SESSION['uid'];
+} elseif (isset($_SESSION['client']['id']) && !empty($_SESSION['client']['id'])) {
+    $clientId = (int)$_SESSION['client']['id'];
+} elseif (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+    $clientId = (int)$_SESSION['user_id'];
 } elseif (isset($_GET['client_id']) && isset($_GET['verify'])) {
     // Allow admin-testing with direct client_id
     $clientId = (int)$_GET['client_id'];
@@ -122,9 +129,13 @@ if ($action === 'link' && !$isLinked) {
     $baseUrl = $scheme . '://' . $host;
     $webhookUrl = $baseUrl . '/modules/addons/whmcs_telegram_bot/telegram_webhook.php';
     
-    // Build Telegram link
+    // Build Telegram link - show instructions to send command
     $botPart = !empty($botUsername) ? $botUsername : 'YourBot';
-    $linkUrl = "https://t.me/{$botPart}?start=link_{$token}";
+    // Old deep link method - doesn't always work
+    // $linkUrl = "https://t.me/{$botPart}?start=link_{$token}";
+    
+    // New method - show the user a command to send
+    $linkCommand = "/link {$token}";
     
     $message = 'link_ready';
 }

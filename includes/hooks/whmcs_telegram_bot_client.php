@@ -47,7 +47,7 @@ add_hook('ClientAreaFooterOutput', 1, function($vars) {
     }
     
     // Build the link
-    $linkUrl = '/modules/addons/whmcs_telegram_bot/link.php';
+    $linkUrl = '/modules/addons/whmcs_telegram_bot/link.php?client_id=' . $clientId;
     
     if ($isLinked) {
         return <<<HTML
@@ -131,7 +131,7 @@ add_hook('ClientAreaSidebarNav', 1, function($vars) {
         return '';
     }
     
-    $linkUrl = '/modules/addons/whmcs_telegram_bot/link.php';
+    $linkUrl = '/modules/addons/whmcs_telegram_bot/link.php?client_id=' . $clientId;
     
     if ($isLinked) {
         return '<div class="panel panel-default">

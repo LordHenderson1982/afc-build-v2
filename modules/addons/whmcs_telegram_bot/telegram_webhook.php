@@ -69,6 +69,13 @@ sendMessage($chatId, "DEBUG update: " . substr($fullUpdate, 0, 500), $botToken);
         exit;
     }
     
+    // Check for /link command with token
+    if (strpos($text, '/link ') === 0) {
+        $token = trim(str_replace('/link ', '', $text));
+        handleLinkToken($chatId, $userId, $token, $botToken, $conn, $firstName, $lastName, $username);
+        exit;
+    }
+    
     // Check user is linked
     $clientId = getLinkedClient($userId, $conn);
     
