@@ -88,7 +88,7 @@ HTML;
     color: white;
 }
 </style>
-<a href="{$linkUrl}?action=link" class="telegram-link-btn">📱 Connect Telegram</a>
+<a href="{$linkUrl}&action=link" class="telegram-link-btn">📱 Connect Telegram</a>
 HTML;
 });
 
@@ -150,7 +150,7 @@ add_hook('ClientAreaSidebarNav', 1, function($vars) {
         </div>
         <div class="panel-body text-center">
             <p>Connect Telegram to manage your account via bot</p>
-            <a href="' . $linkUrl . '?action=link" class="btn btn-primary btn-sm btn-block">Connect Telegram</a>
+            <a href="' . $linkUrl . '&action=link" class="btn btn-primary btn-sm btn-block">Connect Telegram</a>
         </div>
     </div>';
 });
