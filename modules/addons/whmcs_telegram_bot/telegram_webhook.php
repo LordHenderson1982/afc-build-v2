@@ -140,6 +140,9 @@ function handleMessage($message, $botToken, $conn) {
     $lastName = $message['from']['last_name'] ?? '';
     $username = $message['from']['username'] ?? '';
     
+    // DEBUG: Show what we received
+    sendMessage($chatId, "DEBUG: text=['$text'] strpos=" . strpos($text, '/start link_'), $botToken);
+    
     // Check if this is a /start with a link token
     if (strpos($text, '/start link_') === 0) {
         $token = str_replace('/start link_', '', $text);
