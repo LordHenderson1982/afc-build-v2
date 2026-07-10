@@ -59,8 +59,8 @@ if (isset($_SESSION['uid']) && !empty($_SESSION['uid'])) {
     $clientId = (int)$_SESSION['client']['id'];
 } elseif (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
     $clientId = (int)$_SESSION['user_id'];
-} elseif (isset($_GET['client_id']) && isset($_GET['verify'])) {
-    // Allow admin-testing with direct client_id
+} elseif (isset($_GET['client_id'])) {
+    // Accept client_id from URL (passed by hook)
     $clientId = (int)$_GET['client_id'];
 }
 
