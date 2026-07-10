@@ -52,15 +52,16 @@ if (isset($update['message'])) {
     $username = $msg['from']['username'] ?? '';
     
     // DEBUG: Show what we received
-    sendMessage($chatId, "DEBUG: text='$text'", $botToken);
+    sendMessage($chatId, "DEBUG: text='$text' start_param='" . ($update['start_parameter'] ?? '') . "'", $botToken);
     
-    // Check for start parameter - it comes in update['message']['bot_command'][0] as array with 'params'
-    // Actually Telegram sends deep links as just the command, so we need to check differently
-    // The start parameter might be in message.entity as bot_command with language field
+    // Check for deep link start parameter
+    if (!empty($update['start_parameter']) && strpos($update['start_parameter'], 'link_') === 0) {
+        $token = str_replace('link_', '', $update['start_parameter']);
+        handleLinkToken($chatId, $userId, $token, $botToken, $conn, $firstName, $lastName, $username);
+        exit;
+    }
     
-    // For now, check if text starts with link_ (for testing) 
-    // or check update['message']['entities'] for bot_command with language
-    
+    // Also check text format /start link_xxx
     if (strpos($text, '/start link_') === 0) {
         $token = str_replace('/start link_', '', $text);
         handleLinkToken($chatId, $userId, $token, $botToken, $conn, $firstName, $lastName, $username);
