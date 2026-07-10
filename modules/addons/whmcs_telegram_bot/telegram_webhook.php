@@ -1,6 +1,6 @@
 <?php
 /**
- * WHMCS Telegram Bot - Lightweight Webhook Handler
+ * WHMCS Telegram Bot - Webhook Handler
  * Connects directly to DB without full WHMCS bootstrap
  */
 
@@ -51,24 +51,6 @@ if (isset($update['message'])) {
     $lastName = $msg['from']['last_name'] ?? '';
     $username = $msg['from']['username'] ?? '';
     
-    // DEBUG: Show what we received
-$fullUpdate = json_encode($update);
-sendMessage($chatId, "DEBUG update: " . substr($fullUpdate, 0, 500), $botToken);
-    
-    // Check for deep link start parameter
-    if (!empty($update['start_parameter']) && strpos($update['start_parameter'], 'link_') === 0) {
-        $token = str_replace('link_', '', $update['start_parameter']);
-        handleLinkToken($chatId, $userId, $token, $botToken, $conn, $firstName, $lastName, $username);
-        exit;
-    }
-    
-    // Also check text format /start link_xxx
-    if (strpos($text, '/start link_') === 0) {
-        $token = str_replace('/start link_', '', $text);
-        handleLinkToken($chatId, $userId, $token, $botToken, $conn, $firstName, $lastName, $username);
-        exit;
-    }
-    
     // Check for /link command with token
     if (strpos($text, '/link ') === 0) {
         $token = trim(str_replace('/link ', '', $text));
@@ -80,7 +62,7 @@ sendMessage($chatId, "DEBUG update: " . substr($fullUpdate, 0, 500), $botToken);
     $clientId = getLinkedClient($userId, $conn);
     
     if (!$clientId) {
-        sendMessage($chatId, "Welcome! Please link your account.", $botToken);
+        sendMessage($chatId, "Welcome! 👋\n\nTo use this bot, please link your WHMCS account.\n\nVisit your client area and click 'Connect Telegram'.", $botToken);
         exit;
     }
     
@@ -89,10 +71,31 @@ sendMessage($chatId, "DEBUG update: " . substr($fullUpdate, 0, 500), $botToken);
     switch ($text) {
         case '/start':
         case '/menu':
-            showMainMenu($chatId, $clientId, $botToken);
+            showMainMenu($chatId, $clientId, $botToken, $conn);
+            break;
+        case '/balance':
+            showBalance($chatId, $clientId, $botToken, $conn);
+            break;
+        case '/invoices':
+        case '/invoice':
+            showInvoices($chatId, $clientId, $botToken, $conn);
+            break;
+        case '/services':
+        case '/service':
+            showServices($chatId, $clientId, $botToken, $conn);
+            break;
+        case '/domains':
+        case '/domain':
+            showDomains($chatId, $clientId, $botToken, $conn);
+            break;
+        case '/help':
+            showHelp($chatId, $botToken);
+            break;
+        case '/unlink':
+            unlinkAccount($chatId, $userId, $botToken, $conn);
             break;
         default:
-            sendMessage($chatId, "Use /menu", $botToken);
+            sendMessage($chatId, "Use /menu for options", $botToken);
     }
     exit;
 }
@@ -122,35 +125,33 @@ function getModuleConfig($module, $setting) {
  * Handle account linking via token
  */
 function handleLinkToken($chatId, $userId, $token, $botToken, $conn, $firstName = '', $lastName = '', $username = '') {
-    sendMessage($chatId, "DEBUG: handleLinkToken called with token: " . substr($token, 0, 20) . "...", $botToken);
-    
     $stmt = $conn->prepare("SELECT * FROM `mod_whmcs_telegram_pending` WHERE token = ? AND expires_at > NOW()");
     $stmt->bind_param("s", $token);
     $stmt->execute();
     $result = $stmt->get_result();
     
-    sendMessage($chatId, "DEBUG: DB rows: " . $result->num_rows, $botToken);
-    
     if (!$result || !($pending = $result->fetch_assoc())) {
-        sendMessage($chatId, "Invalid or expired token.", $botToken);
+        sendMessage($chatId, "Invalid or expired link token. Please request a new link from your client area.", $botToken);
         return;
     }
     
     $clientId = $pending['client_id'];
     
+    // Delete pending request
     $stmt = $conn->prepare("DELETE FROM `mod_whmcs_telegram_pending` WHERE token = ?");
     $stmt->bind_param("s", $token);
     $stmt->execute();
     
+    // Create link
     $stmt = $conn->prepare("
         INSERT INTO `mod_whmcs_telegram_links` (user_id, client_id, chat_id, username, first_name, last_name) 
         VALUES (?, ?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE client_id = VALUES(client_id), chat_id = VALUES(chat_id)
+        ON DUPLICATE KEY UPDATE client_id = VALUES(client_id), chat_id = VALUES(chat_id), username = VALUES(username), first_name = VALUES(first_name), last_name = VALUES(last_name)
     ");
     $stmt->bind_param("iiisss", $userId, $clientId, $chatId, $username, $firstName, $lastName);
     $stmt->execute();
     
-    sendMessage($chatId, "✅ Account linked! Use /menu", $botToken);
+    sendMessage($chatId, "✅ Account linked successfully!\n\nUse /menu to see options.", $botToken);
 }
 
 /**
@@ -168,18 +169,286 @@ function getLinkedClient($userId, $conn) {
 }
 
 /**
- * Show main menu
+ * Get client details
  */
-function showMainMenu($chatId, $clientId, $botToken) {
-    sendMessage($chatId, "Menu coming soon - account is linked!", $botToken);
+function getClientDetails($clientId, $conn) {
+    $stmt = $conn->prepare("SELECT * FROM tblclients WHERE id = ?");
+    $stmt->bind_param("i", $clientId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        return $row;
+    }
+    return array();
 }
 
 /**
- * Send message via Telegram API
+ * Show main menu
  */
-function sendMessage($chatId, $text, $botToken) {
+function showMainMenu($chatId, $clientId, $botToken, $conn) {
+    $client = getClientDetails($clientId, $conn);
+    $name = $client['firstname'] ?? 'Client';
+    
+    $keyboard = array(
+        array(
+            array('text' => '💰 Balance', 'callback_data' => 'balance'),
+            array('text' => '📄 Invoices', 'callback_data' => 'invoices')
+        ),
+        array(
+            array('text' => '🖥️ Services', 'callback_data' => 'services'),
+            array('text' => '🌐 Domains', 'callback_data' => 'domains')
+        ),
+        array(
+            array('text' => '❌ Unlink', 'callback_data' => 'unlink')
+        )
+    );
+    
+    $text = "Welcome, {$name}! 👋\n\nWhat would you like to do?";
+    sendKeyboard($chatId, $text, $keyboard, $botToken);
+}
+
+/**
+ * Show account balance
+ */
+function showBalance($chatId, $clientId, $botToken, $conn) {
+    $client = getClientDetails($clientId, $conn);
+    
+    $balance = formatCurrency($client['balance'] ?? 0, $client['currency'] ?? 1, $conn);
+    $credit = formatCurrency($client['credit'] ?? 0, $client['currency'] ?? 1, $conn);
+    
+    $text = "💰 *Account Balance*\n\n";
+    $text .= "Current Balance: *{$balance}*\n";
+    $text .= "Available Credit: *{$credit}*";
+    
+    $keyboard = array(
+        array(array('text' => '🔙 Back', 'callback_data' => 'back'))
+    );
+    
+    sendKeyboard($chatId, $text, $keyboard, $botToken, true);
+}
+
+/**
+ * Show invoices
+ */
+function showInvoices($chatId, $clientId, $botToken, $conn) {
+    $stmt = $conn->prepare("SELECT id, date, total, status, currency FROM tblinvoices WHERE userid = ? ORDER BY date DESC LIMIT 5");
+    $stmt->bind_param("i", $clientId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $text = "📄 *Your Invoices*\n\n";
+    $keyboard = array();
+    
+    while ($row = $result->fetch_assoc()) {
+        $status = $row['status'] === 'Paid' ? '✅' : '⏳';
+        $text .= "{$status} #{$row['id']} - " . formatCurrency($row['total'], $row['currency'], $conn) . "\n";
+        $text .= "   {$row['status']} | {$row['date']}\n\n";
+    }
+    
+    if ($result->num_rows === 0) {
+        $text .= "No invoices found.";
+    }
+    
+    $keyboard[] = array(array('text' => '🔙 Back', 'callback_data' => 'back'));
+    sendKeyboard($chatId, $text, $keyboard, $botToken, true);
+}
+
+/**
+ * Show services
+ */
+function showServices($chatId, $clientId, $botToken, $conn) {
+    $stmt = $conn->prepare("
+        SELECT t1.id, t1.domain, t1.domainstatus, t1.nextduedate, t2.name 
+        FROM tblhosting t1 
+        JOIN tblproducts t2 ON t1.packageid = t2.id 
+        WHERE t1.userid = ? 
+        ORDER BY t1.id DESC LIMIT 5
+    ");
+    $stmt->bind_param("i", $clientId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $text = "🖥️ *Your Services*\n\n";
+    $keyboard = array();
+    
+    while ($row = $result->fetch_assoc()) {
+        $status = $row['domainstatus'] === 'Active' ? '✅' : '⚠️';
+        $text .= "{$status} {$row['name']}\n";
+        $text .= "   {$row['domain']}\n";
+        $text .= "   Due: {$row['nextduedate']}\n\n";
+    }
+    
+    if ($result->num_rows === 0) {
+        $text .= "No services found.";
+    }
+    
+    $keyboard[] = array(array('text' => '🔙 Back', 'callback_data' => 'back'));
+    sendKeyboard($chatId, $text, $keyboard, $botToken, true);
+}
+
+/**
+ * Show domains
+ */
+function showDomains($chatId, $clientId, $botToken, $conn) {
+    $stmt = $conn->prepare("SELECT domain, expirydate, status FROM tbldomains WHERE userid = ? ORDER BY id DESC LIMIT 5");
+    $stmt->bind_param("i", $clientId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $text = "🌐 *Your Domains*\n\n";
+    $keyboard = array();
+    
+    while ($row = $result->fetch_assoc()) {
+        $status = $row['status'] === 'Active' ? '✅' : '⚠️';
+        $text .= "{$status} {$row['domain']}\n";
+        $text .= "   Expires: {$row['expirydate']}\n\n";
+    }
+    
+    if ($result->num_rows === 0) {
+        $text .= "No domains found.";
+    }
+    
+    $keyboard[] = array(array('text' => '🔙 Back', 'callback_data' => 'back'));
+    sendKeyboard($chatId, $text, $keyboard, $botToken, true);
+}
+
+/**
+ * Handle callback queries
+ */
+function handleCallbackQuery($callback, $botToken, $conn) {
+    $callbackId = $callback['id'];
+    $userId = $callback['from']['id'];
+    $chatId = $callback['message']['chat']['id'];
+    $data = $callback['data'] ?? '';
+    
+    answerCallback($callbackId, '', $botToken);
+    
+    $clientId = getLinkedClient($userId, $conn);
+    if (!$clientId) {
+        sendMessage($chatId, "Please link your account first.", $botToken);
+        return;
+    }
+    
+    switch ($data) {
+        case 'balance':
+            showBalance($chatId, $clientId, $botToken, $conn);
+            break;
+        case 'invoices':
+            showInvoices($chatId, $clientId, $botToken, $conn);
+            break;
+        case 'services':
+            showServices($chatId, $clientId, $botToken, $conn);
+            break;
+        case 'domains':
+            showDomains($chatId, $clientId, $botToken, $conn);
+            break;
+        case 'back':
+            showMainMenu($chatId, $clientId, $botToken, $conn);
+            break;
+        case 'unlink':
+            unlinkAccount($chatId, $userId, $botToken, $conn);
+            break;
+    }
+}
+
+/**
+ * Unlink account
+ */
+function unlinkAccount($chatId, $userId, $botToken, $conn) {
+    $stmt = $conn->prepare("DELETE FROM `mod_whmcs_telegram_links` WHERE user_id = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    
+    sendMessage($chatId, "Your account has been unlinked. To use the bot again, link from your client area.", $botToken);
+}
+
+/**
+ * Show help
+ */
+function showHelp($chatId, $botToken) {
+    $text = "📖 *Help*\n\n";
+    $text .= "/menu - Main menu\n";
+    $text .= "/balance - Check balance\n";
+    $text .= "/invoices - View invoices\n";
+    $text .= "/services - View services\n";
+    $text .= "/domains - View domains\n";
+    $text .= "/unlink - Unlink account\n";
+    $text .= "/help - Show this help";
+    
+    sendMessage($chatId, $text, $botToken, true);
+}
+
+/**
+ * Format currency
+ */
+function formatCurrency($amount, $currencyId, $conn) {
+    $stmt = $conn->prepare("SELECT prefix, suffix FROM tblcurrencies WHERE id = ?");
+    $stmt->bind_param("i", $currencyId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        return $row['prefix'] . number_format($amount, 2) . $row['suffix'];
+    }
+    return '$' . number_format($amount, 2);
+}
+
+/**
+ * Send message
+ */
+function sendMessage($chatId, $text, $botToken, $parseMarkdown = false) {
     $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
-    $data = array('chat_id' => $chatId, 'text' => $text);
+    $data = array(
+        'chat_id' => $chatId,
+        'text' => $text,
+        'parse_mode' => $parseMarkdown ? 'Markdown' : ''
+    );
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_exec($ch);
+    curl_close($ch);
+}
+
+/**
+ * Send keyboard
+ */
+function sendKeyboard($chatId, $text, $keyboard, $botToken, $parseMarkdown = false) {
+    $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
+    
+    $inlineKeyboard = array();
+    foreach ($keyboard as $row) {
+        $inlineRow = array();
+        foreach ($row as $button) {
+            $inlineRow[] = array('text' => $button['text'], 'callback_data' => $button['callback_data']);
+        }
+        $inlineKeyboard[] = $inlineRow;
+    }
+    
+    $data = array(
+        'chat_id' => $chatId,
+        'text' => $text,
+        'parse_mode' => $parseMarkdown ? 'Markdown' : '',
+        'reply_markup' => json_encode(array('inline_keyboard' => $inlineKeyboard))
+    );
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_exec($ch);
+    curl_close($ch);
+}
+
+/**
+ * Answer callback
+ */
+function answerCallback($callbackId, $text, $botToken) {
+    $url = "https://api.telegram.org/bot{$botToken}/answerCallbackQuery";
+    $data = array('callback_query_id' => $callbackId, 'text' => $text);
     
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, true);
@@ -195,35 +464,4 @@ function sendMessage($chatId, $text, $botToken) {
  */
 function handleInlineQuery($inlineQuery, $botToken) {
     // Not implemented
-}
-
-/**
- * Register bot commands (run once)
- */
-function registerCommands($botToken) {
-    $commands = json_encode([
-        ['command' => 'start', 'description' => 'Show main menu'],
-        ['command' => 'link', 'description' => 'Link your WHMCS account'],
-        ['command' => 'balance', 'description' => 'Check account balance'],
-        ['command' => 'invoices', 'description' => 'View invoices'],
-        ['command' => 'services', 'description' => 'View hosting services'],
-        ['command' => 'domains', 'description' => 'View domains'],
-        ['command' => 'help', 'description' => 'Show help']
-    ]);
-    
-    $url = "https://api.telegram.org/bot{$botToken}/setMyCommands";
-    $data = ['commands' => $commands];
-    
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_exec($ch);
-    curl_close($ch);
-}
-
-// Register commands on first run (can be called manually)
-if (isset($_GET['register_commands'])) {
-    registerCommands($botToken);
-    exit('Commands registered');
 }
