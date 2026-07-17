@@ -221,17 +221,11 @@ function showMainMenu($chatId, $clientId, $botToken, $conn) {
     $name = $client['firstname'] ?? 'Client';
     
     $keyboard = array(
-        array(
-            array('text' => '💰 Balance', 'callback_data' => 'balance'),
-            array('text' => '📄 Invoices', 'callback_data' => 'invoices')
-        ),
-        array(
-            array('text' => '🖥️ Services', 'callback_data' => 'services'),
-            array('text' => '📚 Knowledgebase', 'callback_data' => 'knowledgebase')
-        ),
-        array(
-            array('text' => '❌ Unlink', 'callback_data' => 'unlink')
-        )
+        array(array('text' => '💰 Balance', 'callback_data' => 'bal')),
+        array(array('text' => '📄 Invoices', 'callback_data' => 'inv')),
+        array(array('text' => '🖥️ Services', 'callback_data' => 'srv')),
+        array(array('text' => '📚 Knowledgebase', 'callback_data' => 'kb')),
+        array(array('text' => '❌ Unlink', 'callback_data' => 'unl'))
     );
     
     $text = "Welcome, {$name}! 👋\n\nWhat would you like to do?";
@@ -406,18 +400,18 @@ function handleCallbackQuery($callback, $botToken, $conn) {
     // Handle callback actions - use lowercase to handle case variations
     $action = strtolower($data);
     
-    if ($action === 'balance') {
+    if ($action === 'bal') {
         showBalance($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'invoices') {
+    } elseif ($action === 'inv') {
         showInvoices($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'services') {
+    } elseif ($action === 'srv') {
         showServices($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'knowledgebase') {
+    } elseif ($action === 'kb') {
         showKnowledgebase($chatId, $clientId, $botToken, $conn);
+    } elseif ($action === 'unl') {
+        unlinkAccount($chatId, $userId, $botToken, $conn);
     } elseif ($action === 'back') {
         showMainMenu($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'unlink') {
-        unlinkAccount($chatId, $userId, $botToken, $conn);
     } elseif (strpos($data, 'kb_') === 0) {
         // Handle KB article clicks (kb_123)
         $articleId = (int)str_replace('kb_', '', $data);
