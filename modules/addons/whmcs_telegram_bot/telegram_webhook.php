@@ -383,18 +383,18 @@ function handleCallbackQuery($callback, $botToken, $conn) {
         case 'knowledgebase':
             showKnowledgebase($chatId, $clientId, $botToken, $conn);
             break;
+        case 'back':
+            showMainMenu($chatId, $clientId, $botToken, $conn);
+            break;
+        case 'unlink':
+            unlinkAccount($chatId, $userId, $botToken, $conn);
+            break;
         default:
             // Handle KB article clicks (kb_123)
             if (strpos($data, 'kb_') === 0) {
                 $articleId = (int)str_replace('kb_', '', $data);
                 showKnowledgebaseArticle($chatId, $articleId, $botToken, $conn);
             }
-            break;
-        case 'back':
-            showMainMenu($chatId, $clientId, $botToken, $conn);
-            break;
-        case 'unlink':
-            unlinkAccount($chatId, $userId, $botToken, $conn);
             break;
     }
 }
