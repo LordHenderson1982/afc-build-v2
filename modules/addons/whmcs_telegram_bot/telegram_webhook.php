@@ -247,36 +247,8 @@ function showBalance($chatId, $clientId, $botToken, $conn) {
  * Show invoices
  */
 function showInvoices($chatId, $clientId, $botToken, $conn) {
-    sendMessage($chatId, "📄 Invoices button works!", $botToken);
-    return;
-    
-    // Original code commented out for testing
-    /*
-    try {
-        $stmt = $conn->prepare("SELECT id, date, total, status, currency FROM tblinvoices WHERE userid = ? ORDER BY date DESC LIMIT 5");
-        $stmt->bind_param("i", $clientId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        $text = "📄 *Your Invoices*\n\n";
-        $keyboard = array();
-        
-        while ($row = $result->fetch_assoc()) {
-            $status = $row['status'] === 'Paid' ? '✅' : '⏳';
-            $text .= "{$status} #{$row['id']} - " . formatCurrency($row['total'], $row['currency'], $conn) . "\n";
-            $text .= "   {$row['status']} | {$row['date']}\n\n";
-        }
-        
-        if ($result->num_rows === 0) {
-            $text .= "No invoices found.";
-        }
-        
-        $keyboard[] = array(array('text' => '🔙 Back', 'callback_data' => 'back'));
-        sendKeyboard($chatId, $text, $keyboard, $botToken, true);
-    } catch (Exception $e) {
-        sendMessage($chatId, "Error: " . $e->getMessage(), $botToken);
-    }
-    */
+    // Simple test - just send text
+    sendMessage($chatId, "📄 Loading invoices...", $botToken);
 }
 
 /**
