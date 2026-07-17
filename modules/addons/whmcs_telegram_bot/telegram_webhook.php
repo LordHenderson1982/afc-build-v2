@@ -258,7 +258,7 @@ function showInvoices($chatId, $clientId, $botToken, $conn) {
  */
 function showServices($chatId, $clientId, $botToken, $conn) {
     $stmt = $conn->prepare("
-        SELECT t1.id, t1.domain, t1.domainstatus, t1.nextduedate, t1.username, t2.name 
+        SELECT t1.id, t1.domain, t1.domainstatus, t1.nextduedate, t1.username, t1.password, t2.name 
         FROM tblhosting t1 
         JOIN tblproducts t2 ON t1.packageid = t2.id 
         WHERE t1.userid = ? 
@@ -279,6 +279,10 @@ function showServices($chatId, $clientId, $botToken, $conn) {
             $text .= "   👤 Username: `{$row['username']}`\n";
         }
         $text .= "   📅 Due: {$row['nextduedate']}\n\n";
+    }
+    
+    if ($result->num_rows > 0) {
+        $text .= "_💡 Passwords: View in Client Area → Services_\n";
     }
     
     if ($result->num_rows === 0) {
