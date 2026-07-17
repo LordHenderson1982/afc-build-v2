@@ -368,8 +368,8 @@ function handleCallbackQuery($callback, $botToken, $conn) {
     
     answerCallback($callbackId, '', $botToken);
     
-    // Debug: log what we received
-    sendMessage($chatId, "DEBUG: Got callback data: '" . $data . "'", $botToken);
+    // Debug: show what callback data was received
+    sendMessage($chatId, "DEBUG: Received '" . $data . "'", $botToken);
     
     $clientId = getLinkedClient($userId, $conn);
     if (!$clientId) {
