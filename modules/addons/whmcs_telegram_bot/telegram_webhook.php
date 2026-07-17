@@ -368,6 +368,9 @@ function handleCallbackQuery($callback, $botToken, $conn) {
     
     answerCallback($callbackId, '', $botToken);
     
+    // Debug: log what we received
+    sendMessage($chatId, "DEBUG: Got callback data: '" . $data . "'", $botToken);
+    
     $clientId = getLinkedClient($userId, $conn);
     if (!$clientId) {
         sendMessage($chatId, "Please link your account first.", $botToken);
