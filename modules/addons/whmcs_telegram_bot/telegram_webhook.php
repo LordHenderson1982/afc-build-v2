@@ -374,32 +374,27 @@ function handleCallbackQuery($callback, $botToken, $conn) {
         return;
     }
     
-    switch ($data) {
-        case 'balance':
-            showBalance($chatId, $clientId, $botToken, $conn);
-            break;
-        case 'invoices':
-            showInvoices($chatId, $clientId, $botToken, $conn);
-            break;
-        case 'services':
-            showServices($chatId, $clientId, $botToken, $conn);
-            break;
-        case 'knowledgebase':
-            showKnowledgebase($chatId, $clientId, $botToken, $conn);
-            break;
-        case 'back':
-            showMainMenu($chatId, $clientId, $botToken, $conn);
-            break;
-        case 'unlink':
-            unlinkAccount($chatId, $userId, $botToken, $conn);
-            break;
-        default:
-            // Handle KB article clicks (kb_123)
-            if (strpos($data, 'kb_') === 0) {
-                $articleId = (int)str_replace('kb_', '', $data);
-                showKnowledgebaseArticle($chatId, $articleId, $botToken, $conn);
-            }
-            break;
+    // Handle callback actions explicitly
+    if ($data === 'balance') {
+        showBalance($chatId, $clientId, $botToken, $conn);
+    } elseif ($data === 'invoices') {
+        showInvoices($chatId, $clientId, $botToken, $conn);
+    } elseif ($data === 'services') {
+        showServices($chatId, $clientId, $botToken, $conn);
+    } elseif ($data === 'knowledgebase') {
+        showKnowledgebase($chatId, $clientId, $botToken, $conn);
+    } elseif ($data === 'back') {
+        showMainMenu($chatId, $clientId, $botToken, $conn);
+    } elseif ($data === 'unlink') {
+        unlinkAccount($chatId, $userId, $botToken, $conn);
+    } elseif (strpos($data, 'kb_') === 0) {
+        // Handle KB article clicks (kb_123)
+        $articleId = (int)str_replace('kb_', '', $data);
+        showKnowledgebaseArticle($chatId, $articleId, $botToken, $conn);
+    } else {
+        // Debug - show what was received
+        error_log("Unknown callback data: " . $data);
+        sendMessage($chatId, "Debug: Received unknown action: " . $data, $botToken);
     }
 }
 
