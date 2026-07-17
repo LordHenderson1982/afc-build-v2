@@ -58,15 +58,6 @@ if (isset($update['callback_query'])) {
     curl_exec($ch);
     curl_close($ch);
     
-    // Also send a message to confirm we got it
-    $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, array('chat_id' => $chatId, 'text' => 'Button clicked: ' . $data));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_exec($ch);
-    curl_close($ch);
-    
     // Continue with rest of handler
     handleCallbackQuery($update['callback_query'], $botToken, $conn);
     exit;
