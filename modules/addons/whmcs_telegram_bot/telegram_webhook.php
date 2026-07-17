@@ -391,15 +391,35 @@ function handleCallbackQuery($callback, $botToken, $conn) {
     // Handle callback actions - use lowercase to handle case variations
     $action = strtolower($data);
     
-    if ($action === 'bal') {
+    // Support both old and new callback codes
+    $actionMap = array(
+        'bal' => 'balance',
+        'inv' => 'invoices', 
+        'srv' => 'services',
+        'kb' => 'knowledgebase',
+        'unl' => 'unlink',
+        'back' => 'back',
+        // Old names for backwards compatibility
+        'balance' => 'balance',
+        'invoices' => 'invoices',
+        'services' => 'services',
+        'knowledgebase' => 'knowledgebase',
+        'unlink' => 'unlink'
+    );
+    
+    if (isset($actionMap[$action])) {
+        $action = $actionMap[$action];
+    }
+    
+    if ($action === 'balance') {
         showBalance($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'inv') {
+    } elseif ($action === 'invoices') {
         showInvoices($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'srv') {
+    } elseif ($action === 'services') {
         showServices($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'kb') {
+    } elseif ($action === 'knowledgebase') {
         showKnowledgebase($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'unl') {
+    } elseif ($action === 'unlink') {
         unlinkAccount($chatId, $userId, $botToken, $conn);
     } elseif ($action === 'back') {
         showMainMenu($chatId, $clientId, $botToken, $conn);
