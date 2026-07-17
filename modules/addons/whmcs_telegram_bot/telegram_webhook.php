@@ -403,18 +403,20 @@ function handleCallbackQuery($callback, $botToken, $conn) {
         return;
     }
     
-    // Handle callback actions explicitly
-    if ($data === 'balance') {
+    // Handle callback actions - use lowercase to handle case variations
+    $action = strtolower($data);
+    
+    if ($action === 'balance') {
         showBalance($chatId, $clientId, $botToken, $conn);
-    } elseif ($data === 'invoices') {
+    } elseif ($action === 'invoices') {
         showInvoices($chatId, $clientId, $botToken, $conn);
-    } elseif ($data === 'services') {
+    } elseif ($action === 'services') {
         showServices($chatId, $clientId, $botToken, $conn);
-    } elseif ($data === 'knowledgebase') {
+    } elseif ($action === 'knowledgebase') {
         showKnowledgebase($chatId, $clientId, $botToken, $conn);
-    } elseif ($data === 'back') {
+    } elseif ($action === 'back') {
         showMainMenu($chatId, $clientId, $botToken, $conn);
-    } elseif ($data === 'unlink') {
+    } elseif ($action === 'unlink') {
         unlinkAccount($chatId, $userId, $botToken, $conn);
     } elseif (strpos($data, 'kb_') === 0) {
         // Handle KB article clicks (kb_123)
