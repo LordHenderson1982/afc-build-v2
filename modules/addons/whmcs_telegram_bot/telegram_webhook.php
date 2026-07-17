@@ -43,6 +43,31 @@ if (!$update) {
 
 // Handle callback queries (button presses)
 if (isset($update['callback_query'])) {
+    $callback = $update['callback_query'];
+    $callbackId = $callback['id'];
+    $userId = $callback['from']['id'];
+    $chatId = $callback['message']['chat']['id'];
+    $data = $callback['data'] ?? '';
+    
+    // Immediate response
+    $url = "https://api.telegram.org/bot{$botToken}/answerCallbackQuery";
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, array('callback_query_id' => $callbackId));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_exec($ch);
+    curl_close($ch);
+    
+    // Also send a message to confirm we got it
+    $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, array('chat_id' => $chatId, 'text' => 'Button clicked: ' . $data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_exec($ch);
+    curl_close($ch);
+    
+    // Continue with rest of handler
     handleCallbackQuery($update['callback_query'], $botToken, $conn);
     exit;
 }
@@ -371,11 +396,6 @@ function handleCallbackQuery($callback, $botToken, $conn) {
     $userId = $callback['from']['id'];
     $chatId = $callback['message']['chat']['id'];
     $data = $callback['data'] ?? '';
-    
-    answerCallback($callbackId, '', $botToken);
-    
-    // Debug: show what callback data was received
-    sendMessage($chatId, "DEBUG: Received '" . $data . "'", $botToken);
     
     $clientId = getLinkedClient($userId, $conn);
     if (!$clientId) {
