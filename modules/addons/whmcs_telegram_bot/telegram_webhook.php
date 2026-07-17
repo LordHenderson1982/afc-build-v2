@@ -4,6 +4,12 @@
  * Connects directly to DB without full WHMCS bootstrap
  */
 
+// Enable error logging
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+ini_set('error_log', '/tmp/telegram_bot_errors.log');
+
 // Database configuration
 $db_config = array(
     'host' => 'localhost',
