@@ -364,55 +364,28 @@ function handleCallbackQuery($callback, $botToken, $conn) {
     $chatId = $callback['message']['chat']['id'];
     $data = $callback['data'] ?? '';
     
+    // Instant answer to stop loading
+    file_get_contents("https://api.telegram.org/bot{$botToken}/answerCallbackQuery?callback_query_id=" . $callbackId);
+    
     $clientId = getLinkedClient($userId, $conn);
     if (!$clientId) {
-        sendMessage($chatId, "Please link your account first.", $botToken);
+        file_get_contents("https://api.telegram.org/bot{$botToken}/sendMessage?chat_id={$chatId}&text=Please+link+first");
         return;
     }
     
-    // Handle callback actions - use lowercase to handle case variations
-    $action = strtolower($data);
-    
-    // Support both old and new callback codes
-    $actionMap = array(
-        'bal' => 'balance',
-        'inv' => 'invoices', 
-        'srv' => 'services',
-        'kb' => 'knowledgebase',
-        'unl' => 'unlink',
-        'back' => 'back',
-        // Old names for backwards compatibility
-        'balance' => 'balance',
-        'invoices' => 'invoices',
-        'services' => 'services',
-        'knowledgebase' => 'knowledgebase',
-        'unlink' => 'unlink'
-    );
-    
-    if (isset($actionMap[$action])) {
-        $action = $actionMap[$action];
-    }
-    
-    if ($action === 'balance') {
-        showBalance($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'invoices') {
-        showInvoices($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'services') {
-        showServices($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'knowledgebase') {
-        showKnowledgebase($chatId, $clientId, $botToken, $conn);
-    } elseif ($action === 'unlink') {
-        unlinkAccount($chatId, $userId, $botToken, $conn);
-    } elseif ($action === 'back') {
+    // Very simple routing
+    if (strpos($data, 'inv') !== false || strpos($data, 'invoices') !== false) {
+        file_get_contents("https://api.telegram.org/bot{$botToken}/sendMessage?chat_id={$chatId}&text=Invoices+works");
+    } elseif (strpos($data, 'bal') !== false || strpos($data, 'balance') !== false) {
+        file_get_contents("https://api.telegram.org/bot{$botToken}/sendMessage?chat_id={$chatId}&text=Balance+works");
+    } elseif (strpos($data, 'srv') !== false || strpos($data, 'services') !== false) {
+        file_get_contents("https://api.telegram.org/bot{$botToken}/sendMessage?chat_id={$chatId}&text=Services+works");
+    } elseif (strpos($data, 'kb') !== false || strpos($data, 'knowledge') !== false) {
+        file_get_contents("https://api.telegram.org/bot{$botToken}/sendMessage?chat_id={$chatId}&text=KB+works");
+    } elseif (strpos($data, 'back') !== false) {
         showMainMenu($chatId, $clientId, $botToken, $conn);
-    } elseif (strpos($data, 'kb_') === 0) {
-        // Handle KB article clicks (kb_123)
-        $articleId = (int)str_replace('kb_', '', $data);
-        showKnowledgebaseArticle($chatId, $articleId, $botToken, $conn);
     } else {
-        // Debug - show what was received
-        error_log("Unknown callback data: " . $data);
-        sendMessage($chatId, "Debug: Received unknown action: " . $data, $botToken);
+        file_get_contents("https://api.telegram.org/bot{$botToken}/sendMessage?chat_id={$chatId}&text=Got:+" . urlencode($data));
     }
 }
 
