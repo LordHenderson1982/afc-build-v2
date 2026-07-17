@@ -234,7 +234,7 @@ function whmcs_telegram_bot_output($vars) {
         <strong>Setup Instructions:</strong><br>
         1. Create a bot at @BotFather on Telegram<br>
         2. Copy the bot token and paste in the configuration above<br>
-        3. Set commands at @BotFather: /start, /balance, /invoices, /services, /domains, /support<br>
+        3. Set commands at @BotFather: /start, /balance, /invoices, /services, /knowledgebase, /support<br>
         4. Click "Set Webhook with Telegram" above<br>
         5. Share the linking page with clients (see below)
     </div>

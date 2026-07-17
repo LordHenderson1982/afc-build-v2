@@ -214,7 +214,7 @@ $clientName = trim($clientName) ?: 'Client';
             <div class="info">
                 <strong>Logged in as:</strong> <?= htmlspecialchars($clientName) ?>
             </div>
-            <p>You can now use the Telegram bot to check your invoices, services, domains, and more.</p>
+            <p>You can now use the Telegram bot to check your invoices, services, knowledgebase, and more.</p>
             <?php if (!empty($botUsername)): ?>
             <a href="https://t.me/<?= htmlspecialchars($botUsername) ?>" class="telegram-btn">Open Telegram Bot</a>
             <?php endif; ?>
@@ -229,8 +229,8 @@ $clientName = trim($clientName) ?: 'Client';
             <ul style="text-align: left; margin: 20px 0;">
                 <li>💰 Account balance</li>
                 <li>📄 Invoices</li>
-                <li>🖥️ Hosting services</li>
-                <li>🌐 Domains</li>
+                <li>🖥️ Hosting services & login details</li>
+                <li>📚 Knowledgebase articles</li>
                 <li>🎫 Support tickets</li>
             </ul>
             <a href="?action=link" class="telegram-btn">🔗 Link My Account</a>

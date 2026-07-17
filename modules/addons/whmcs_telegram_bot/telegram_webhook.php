@@ -84,9 +84,9 @@ if (isset($update['message'])) {
         case '/service':
             showServices($chatId, $clientId, $botToken, $conn);
             break;
-        case '/domains':
-        case '/domain':
-            showDomains($chatId, $clientId, $botToken, $conn);
+        case '/knowledgebase':
+        case '/kb':
+            showKnowledgebase($chatId, $clientId, $botToken, $conn);
             break;
         case '/help':
             showHelp($chatId, $botToken);
@@ -196,7 +196,7 @@ function showMainMenu($chatId, $clientId, $botToken, $conn) {
         ),
         array(
             array('text' => '🖥️ Services', 'callback_data' => 'services'),
-            array('text' => '🌐 Domains', 'callback_data' => 'domains')
+            array('text' => '📚 Knowledgebase', 'callback_data' => 'knowledgebase')
         ),
         array(
             array('text' => '❌ Unlink', 'callback_data' => 'unlink')
@@ -258,7 +258,7 @@ function showInvoices($chatId, $clientId, $botToken, $conn) {
  */
 function showServices($chatId, $clientId, $botToken, $conn) {
     $stmt = $conn->prepare("
-        SELECT t1.id, t1.domain, t1.domainstatus, t1.nextduedate, t2.name 
+        SELECT t1.id, t1.domain, t1.domainstatus, t1.nextduedate, t1.username, t2.name 
         FROM tblhosting t1 
         JOIN tblproducts t2 ON t1.packageid = t2.id 
         WHERE t1.userid = ? 
@@ -274,8 +274,11 @@ function showServices($chatId, $clientId, $botToken, $conn) {
     while ($row = $result->fetch_assoc()) {
         $status = $row['domainstatus'] === 'Active' ? '✅' : '⚠️';
         $text .= "{$status} {$row['name']}\n";
-        $text .= "   {$row['domain']}\n";
-        $text .= "   Due: {$row['nextduedate']}\n\n";
+        $text .= "   🌐 {$row['domain']}\n";
+        if (!empty($row['username'])) {
+            $text .= "   👤 Username: `{$row['username']}`\n";
+        }
+        $text .= "   📅 Due: {$row['nextduedate']}\n\n";
     }
     
     if ($result->num_rows === 0) {
@@ -287,28 +290,66 @@ function showServices($chatId, $clientId, $botToken, $conn) {
 }
 
 /**
- * Show domains
+ * Show knowledgebase articles
  */
-function showDomains($chatId, $clientId, $botToken, $conn) {
-    $stmt = $conn->prepare("SELECT domain, expirydate, status FROM tbldomains WHERE userid = ? ORDER BY id DESC LIMIT 5");
-    $stmt->bind_param("i", $clientId);
+function showKnowledgebase($chatId, $clientId, $botToken, $conn) {
+    // Get all knowledgebase categories and articles
+    $stmt = $conn->prepare("
+        SELECT kba.id, kba.title, kba.article, kbc.name as category 
+        FROM tblkbarticles kba
+        JOIN tblkbcategories kbc ON kba.category = kbc.id
+        WHERE kbc.hidden = 0
+        ORDER BY kbc.displayorder, kba.displayorder
+        LIMIT 10
+    ");
     $stmt->execute();
     $result = $stmt->get_result();
     
-    $text = "🌐 *Your Domains*\n\n";
+    $text = "📚 *Knowledgebase*\n\n";
     $keyboard = array();
     
-    while ($row = $result->fetch_assoc()) {
-        $status = $row['status'] === 'Active' ? '✅' : '⚠️';
-        $text .= "{$status} {$row['domain']}\n";
-        $text .= "   Expires: {$row['expirydate']}\n\n";
-    }
-    
     if ($result->num_rows === 0) {
-        $text .= "No domains found.";
+        $text .= "No articles available.";
+    } else {
+        $text .= "Available articles:\n\n";
+        while ($row = $result->fetch_assoc()) {
+            $title = html_entity_decode($row['title'], ENT_QUOTES, 'UTF-8');
+            $text .= "📄 *{$title}*\n";
+            $text .= "   Category: {$row['category']}\n\n";
+            $keyboard[] = array(array('text' => '📖 ' . substr($title, 0, 30), 'callback_data' => 'kb_' . $row['id']));
+        }
     }
     
     $keyboard[] = array(array('text' => '🔙 Back', 'callback_data' => 'back'));
+    sendKeyboard($chatId, $text, $keyboard, $botToken, true);
+}
+
+/**
+ * Show a specific knowledgebase article
+ */
+function showKnowledgebaseArticle($chatId, $articleId, $botToken, $conn) {
+    $stmt = $conn->prepare("SELECT id, title, article FROM tblkbarticles WHERE id = ?");
+    $stmt->bind_param("i", $articleId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($row = $result->fetch_assoc()) {
+        $title = html_entity_decode($row['title'], ENT_QUOTES, 'UTF-8');
+        $article = strip_tags(html_entity_decode($row['article'], ENT_QUOTES, 'UTF-8'));
+        // Truncate if too long for Telegram
+        if (strlen($article) > 1000) {
+            $article = substr($article, 0, 997) . '...';
+        }
+        
+        $text = "📖 *{$title}*\n\n" . $article;
+    } else {
+        $text = "Article not found.";
+    }
+    
+    $keyboard = array(
+        array(array('text' => '🔙 Back to KB', 'callback_data' => 'knowledgebase'))
+    );
+    
     sendKeyboard($chatId, $text, $keyboard, $botToken, true);
 }
 
@@ -339,8 +380,15 @@ function handleCallbackQuery($callback, $botToken, $conn) {
         case 'services':
             showServices($chatId, $clientId, $botToken, $conn);
             break;
-        case 'domains':
-            showDomains($chatId, $clientId, $botToken, $conn);
+        case 'knowledgebase':
+            showKnowledgebase($chatId, $clientId, $botToken, $conn);
+            break;
+        default:
+            // Handle KB article clicks (kb_123)
+            if (strpos($data, 'kb_') === 0) {
+                $articleId = (int)str_replace('kb_', '', $data);
+                showKnowledgebaseArticle($chatId, $articleId, $botToken, $conn);
+            }
             break;
         case 'back':
             showMainMenu($chatId, $clientId, $botToken, $conn);
@@ -371,7 +419,7 @@ function showHelp($chatId, $botToken) {
     $text .= "/balance - Check balance\n";
     $text .= "/invoices - View invoices\n";
     $text .= "/services - View services\n";
-    $text .= "/domains - View domains\n";
+    $text .= "/knowledgebase - Knowledgebase articles\n";
     $text .= "/unlink - Unlink account\n";
     $text .= "/help - Show this help";
     
