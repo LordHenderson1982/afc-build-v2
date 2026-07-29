@@ -1,0 +1,23 @@
+# Skip .git directory
+.git
+
+# Skip OpenClaw internal
+.openclaw
+
+# Skip node_modules
+node_modules/
+
+# Skip large binary files
+*.m3u
+*.zip
+
+# Skip embedded git repos
+tap-bowling
+whmcs_telegram_bot
+
+# Skip system files
+.DS_Store
+*.log
+__pycache__/
+*.pyc
+*.md.bak

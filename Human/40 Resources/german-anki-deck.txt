@@ -1,0 +1,46 @@
+German	English	Tags
+Ich lerne Deutsch	I am learning German	german:phrase
+Du sprichst gut	You speak well	german:phrase
+Er geht nach Hause	He goes home	german:phrase
+Wir haben Zeit	We have time	german:phrase
+Was machst du?	What are you doing?	german:phrase
+Ich arbeite	I am working	german:phrase
+Mein Freund kommt	My friend is coming	german:phrase
+sein (to be)	ich: bin, du: bist, er/sie/es: ist, wir: sind, ihr: seid, sie: sind	german:verb
+haben (to have)	ich: habe, du: hast, er/sie/es: hat, wir: haben, ihr: habt, sie: haben	german:verb
+machen (to do/make)	ich: mache, du: machst, er/sie/es: macht, wir: machen, ihr: macht, sie: machen	german:verb
+gehen (to go)	ich: gehe, du: gehst, er/sie/es: geht, wir: gehen, ihr: geht, sie: gehen	german:verb
+kommen (to come)	ich: komme, du: kommst, er/sie/es: kommt, wir: kommen, ihr: kommt, sie: kommen	german:verb
+sehen (to see)	ich: sehe, du: siehst, er/sie/es: sieht, wir: sehen, ihr: seht, sie: sehen	german:verb
+wissen (to know - fact)	ich: weiß, du: weiß, er/sie/es: weiß, wir: wissen, ihr: wisst, sie: wissen	german:verb
+kennen (to know - person)	ich: kenne, du: kennst, er/sie/es: kennt, wir: kennen, ihr: kennt, sie: kennen	german:verb
+sprechen (to speak)	ich: spreche, du: sprichst, er/sie/es: spricht, wir: sprechen, ihr: sprecht, sie: sprechen	german:verb
+essen (to eat)	ich: esse, du: isst, er/sie/es: isst, wir: essen, ihr: esst, sie: essen	german:verb
+trinken (to drink)	ich: trinke, du: trinkst, er/sie/es: trinkt, wir: trinken, ihr: trinkt, sie: trinken	german:verb
+ich (verb ending)	-e (e.g., spiele)	german:grammar
+du (verb ending)	-st (e.g., spielst)	german:grammar
+er/sie/es (verb ending)	-t (e.g., spielt)	german:grammar
+wir (verb ending)	-en (e.g., spielen)	german:grammar
+ihr (verb ending)	-t (e.g., spielt)	german:grammar
+sie/Sie (verb ending)	-en (e.g., spielen)	german:grammar
+Ja	Yes	german:basic
+Nein	No	german:basic
+Bitte	Please	german:basic
+Danke	Thank you	german:basic
+Entschuldigung	Excuse me / Sorry	german:basic
+Guten Morgen	Good morning	german:greeting
+Guten Tag	Good day	german:greeting
+Guten Abend	Good evening	german:greeting
+Auf Wiedersehen	Goodbye	german:greeting
+Wie geht's?	How are you?	german:greeting
+Mir geht's gut	I'm good	german:greeting
+Eins	One	german:number
+Zwei	Two	german:number
+Drei	Three	german:number
+Vier	Four	german:number
+Fünf	Five	german:number
+Sechs	Six	german:number
+Sieben	Seven	german:number
+Acht	Eight	german:number
+Neun	Nine	german:number
+Zehn	Ten	german:number

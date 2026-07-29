@@ -1,0 +1,90 @@
+AC Units for German Houses — Research Report
+==============================================
+
+Here's what I found on AC options for typical German homes:
+
+---
+
+## Best Options for Easy Installation
+
+### 1. Midea PortaSplit (DIY Friendly ⭐)
+- No installer needed — fits in windows, no drilling
+- Quick 3-step setup — window bracket, place unit, plug in
+- Works on: regular windows, roof windows, French balconies
+- Control via Midea SmartHome app
+- Price: ~€500-700
+- Great for renters or anyone who doesn't want permanent changes
+
+### 2. MrCool / Klimaire DIY Mini Splits (DIY Install)
+- Pre-charged refrigerant lines — no pro needed
+- Wall mount indoor unit
+- WiFi control, I Feel remote, turbo mode
+- 7-year compressor warranty
+- Price: ~$800-1200 USD for single room
+
+### 3. Daikin Split Systems (Professional Install)
+- Stiftung Warentest winner (German consumer test)
+- Models: FTXJ25AW, FTXM25R (rated "Good" 2.0-2.1)
+- Extremely quiet, energy efficient
+- Requires professional install (Kälte technician)
+- Price: ~€800-1500 + install
+
+### 4. Bosch Climate Class 3000i
+- Single and multi-split options
+- Multiple colors available
+- Good efficiency
+- Price: ~€900-1400
+
+---
+
+## German-Specific Considerations
+
+### Older Buildings (Altbau)
+- Thicker walls, may need single room units
+- Check if you're allowed to install (landlord permission needed)
+
+### Newer Builds (Neubau)
+- Better insulation means smaller AC needed
+- Multi-split systems work well
+
+### Energy Costs
+- German electricity is expensive
+- Look for A+++ rated units
+- Inverter tech uses less power
+
+### Noise
+- Germans value quiet
+- Split systems are much quieter than portable ACs (which vent out window)
+
+### Cultural Note
+- No central AC culture — Most German homes don't have it
+- Windows and cross-ventilation are standard
+- But summers are getting hotter, so demand is rising
+
+### Professional Install
+- For proper split systems, you need a certified Kälteanlagenbauer (refrigeration engineer)
+- Install cost can run €300-600
+
+---
+
+## Quick Recommendations
+
+| Situation              | Best Pick                   |
+|------------------------|-----------------------------|
+| Renter / temporary     | Midea PortaSplit            |
+| Owner, want DIY        | MrCool / Klimaire           |
+| Want best quality      | Daikin (pro install)        |
+| Whole apartment        | Multi-split (pro install)   |
+
+---
+
+## For Yaya's Place in Germany
+
+Suggested options:
+1. Midea PortaSplit for easiest setup (no permission needed)
+2. Daikin if she wants to do it properly with a pro
+
+---
+
+Generated: June 2026
+Research by Agent Nigel

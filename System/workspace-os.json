@@ -1,0 +1,16 @@
+{
+  "name": "Heyron Workspace OS",
+  "version": "0.1.0",
+  "generatedAt": "2026-06-15T00:00:00.000Z",
+  "skills": [
+    "onboard",
+    "telegram-setup",
+    "discord-setup",
+    "heyron-channel-setup",
+    "workspace-memory",
+    "workspace-capture",
+    "workspace-health-check",
+    "composio-setup"
+  ],
+  "migrations": []
+}
