@@ -102,6 +102,20 @@ Personal ideas to develop, expand, and track. Updated on request.
     - Dropship-friendly, viral on TikTok, high margin
     - *Status: Just added*
 
+13. **Privacy-First AI Email Service**
+    - Create an email service with AI integration focused on privacy
+    - Similar to Proton Mail but cheaper
+    - Integrate Proton's features: encrypted emails, aliases, calendar, drive
+    - Add AI features: smart replies, email summarization, auto-sorting, spam detection
+    - Differentiator: lower price point + better AI than Proton
+    - *Status: Just added*
+
+14. **Telegram Bots for Profit**
+    - Research top profitable Telegram bots
+    - Ideas: sports listings, entertainment listings, auto-forward bot, news bots, crypto signals, weather alerts, movie showtimes, job boards, deal finders
+    - Goal: create recurring revenue through subscriptions or ads
+    - *Status: Just added*
+
 ---
 
 ## How this works
