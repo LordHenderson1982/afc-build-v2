@@ -1,0 +1,56 @@
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0153 seconds.)
+-- IPTV Smarters MySQL Schema -- Run this in phpMyAdmin to create all tables CREATE TABLE IF NOT EXISTS users ( id INT PRIMARY KEY AUTO_INCREMENT, username TEXT, password TEXT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0075 seconds.)
+CREATE TABLE IF NOT EXISTS dns ( id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, title TEXT, url TEXT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0074 seconds.)
+CREATE TABLE IF NOT EXISTS maintenance ( id INT PRIMARY KEY AUTO_INCREMENT, title TEXT, body TEXT, mode TEXT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0075 seconds.)
+CREATE TABLE IF NOT EXISTS devices ( id INT PRIMARY KEY AUTO_INCREMENT, deviceid TEXT, deviceusername TEXT, added_on TEXT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0076 seconds.)
+CREATE TABLE IF NOT EXISTS reports ( id INT PRIMARY KEY AUTO_INCREMENT, username TEXT, macaddress TEXT, section TEXT, section_category TEXT, report_title TEXT, report_sub_title TEXT, report_cases TEXT, report_custom_message TEXT, stream_name TEXT, stream_id INT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0073 seconds.)
+CREATE TABLE IF NOT EXISTS feedback ( id INT PRIMARY KEY AUTO_INCREMENT, username TEXT, macaddress TEXT, feedback_content TEXT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0073 seconds.)
+CREATE TABLE IF NOT EXISTS announcements ( id INT PRIMARY KEY AUTO_INCREMENT, title TEXT NOT NULL, message TEXT NOT NULL, created_on TEXT NOT NULL );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0094 seconds.)
+CREATE TABLE IF NOT EXISTS announcement_views ( announcement_id INT NOT NULL, deviceid TEXT NOT NULL, FOREIGN KEY (announcement_id) REFERENCES announcements(id) );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0075 seconds.)
+CREATE TABLE IF NOT EXISTS vpn ( id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, vpn_country TEXT, vpn_file_name TEXT, username TEXT, password TEXT, embed TEXT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0073 seconds.)
+CREATE TABLE IF NOT EXISTS advertisement ( id INT PRIMARY KEY AUTO_INCREMENT, title TEXT, text TEXT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0073 seconds.)
+CREATE TABLE IF NOT EXISTS ads ( id INT PRIMARY KEY AUTO_INCREMENT, title TEXT, text TEXT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0071 seconds.)
+CREATE TABLE IF NOT EXISTS ads2 ( id INT PRIMARY KEY AUTO_INCREMENT, text TEXT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0090 seconds.)
+CREATE TABLE IF NOT EXISTS ads2_images ( id INT PRIMARY KEY AUTO_INCREMENT, ads2_id INT, url TEXT, FOREIGN KEY (ads2_id) REFERENCES ads2(id) );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0073 seconds.)
+CREATE TABLE IF NOT EXISTS settings ( id INT PRIMARY KEY AUTO_INCREMENT, tmdb_api_enabled INT );
+
+MySQL returned an empty result set (i.e. zero rows). (Query took 0.0075 seconds.)
+CREATE TABLE IF NOT EXISTS update_apk ( id INT PRIMARY KEY AUTO_INCREMENT, app_name TEXT, package TEXT, version TEXT, url TEXT, u_date TEXT );
+
+1 row inserted.
+Inserted row id: 1 (Query took 0.0062 seconds.)
+-- Insert default rows INSERT IGNORE INTO advertisement (title, text) VALUES ('','');
+
+1 row inserted.
+Inserted row id: 1 (Query took 0.0013 seconds.)
+INSERT IGNORE INTO maintenance (title, body, mode) VALUES ('','','no');
+
+1 row inserted.
+Inserted row id: 1 (Query took 0.0012 seconds.)
+INSERT IGNORE INTO settings (tmdb_api_enabled) VALUES (0);
