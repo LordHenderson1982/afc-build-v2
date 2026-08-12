@@ -1,0 +1,11 @@
+{
+  "vps": {
+    "host": "80.78.27.88",
+    "port": 1106,
+    "user": "AgentNigel",
+    "api_port": 3333,
+    "api_key": "e1f89dd68028487786d8f53168dbabd2d82bd7b067a1e806df533413454d008f",
+    "name": "haven",
+    "purpose": "VH Sports Channels, Savage MLB, Vaultwarden"
+  }
+}
