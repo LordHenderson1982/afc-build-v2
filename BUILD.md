@@ -10,11 +10,31 @@ Last updated
 
 **Day**
 
-1
+3
 
 **Stage**
 
-Problem discovery
+Problem Research Brief complete — research bet selected
+
+---
+
+## Day 3 Statement
+
+Day 3 of building my first real business with AI.
+
+The problem getting my next four research days is
+
+**AFC community members, aspiring self-hosters, and developers new to the command line who need to set up a server, run a script, or deploy something requiring terminal but feel intimidated, avoid it, pay someone to do simple tasks, or give up entirely.**
+
+It earned the time because **4 independent receipts (1 community signal + 3 direct AFC responses) confirm this problem exists, and I have clear reach paths (4,000 WHMCS users, 600 Telegram users, AFC members who already responded).**
+
+The biggest thing I still do not know is **whether the problem is recurring or one-time, whether current alternatives work well enough, and whether people would actually pay for a solution.**
+
+I will change or stop if **fewer than 5 out of 8 people describe it as recurring, OR if everyone has a tolerable solution already, OR if no one would pay for help.**
+
+I am not choosing the product yet.
+
+---
 
 **Default agent**
 
@@ -30,15 +50,15 @@ One or more profitable businesses. Volume sales approach: several things making 
 
 **Most important unknown**
 
-Which of the three problem cards has the strongest evidence? Source: Day 1 Problem Cards
+Would they actually pay for help? (Terminal/SSH research bet selected)
 
 **Next move**
 
-Day 2 signal check — verify which problems are real with actual people
+Four-day research sprint on Terminal/SSH problem
 
 **Community ask**
 
-[To be determined after Day 2]
+[Day 3 complete - Terminal/SSH selected as research bet]
 
 ---
 
@@ -246,6 +266,423 @@ Complete Day 1 problem discovery.
 **Community ask**
 
 What problems have you observed in your own life or work that you would pay to solve?
+
+---
+
+### Day 2 Signal Check — 2026-08-14
+
+**Job for this session**
+
+Talk to actual people to verify which problems are real.
+
+**Done will look like**
+
+Gathered signals from real people on which problem resonates.
+
+**Work completed**
+
+- Received 3 AFC member responses on Terminal/SSH problem
+- Insight: Cards 2 and 3 could be addressed through the Terminal solution by broadening scope
+
+**Proof added**
+
+- Response 1: Fear of breaking production systems ("could do some major damage")
+- Response 2: Visual learner, can't read/keep up with terminal output
+- Response 3: Complete beginner, not familiar with terminal
+
+**Key insight**
+
+Cards 2 (AI Debugging) and 3 (Context Pollution) can be addressed through a unified Terminal solution:
+- Terminal = AI sees everything (solves Card 2)
+- Terminal = Fresh session = clean context (solves Card 3)
+- Broader scope: Terminal + OS basics + AI agent usage on servers
+
+**Research completed**
+
+- Spawned agent to research Card 2 across top 5 Agentic AI tools (Cursor, Windsurf, Claude Code, GitHub Copilot)
+- Findings: Both problems are systemic industry issues, not specific to your setup
+- AI Debugging: No tool has native screen sharing, all require manual copy/paste
+- Context Pollution: All tools have issues after ~20 messages, AI ignores instructions
+
+**Decisions made**
+
+- Card 1 (Terminal/SSH) has 3 real voices — validated
+- Card 2 (AI Debugging + Context Pollution) validated by industry research
+- Cards 2 & 3 merged into single Card 2 per Day 2.5 consolidation
+- Problem reframed: "People want to use AI agents on servers but don't know terminal, can't see what's happening, and get stuck"
+
+**Next move**
+
+Move to Day 3 solutioning
+
+---
+
+## Day 3 - Problem Research Brief
+
+### Final comparison
+
+| Question | Finalist 1 (Terminal/SSH) | Finalist 2 (AI Debugging + Context) |
+|---|---|---|
+| Triggering moment clarity | Clear — need to set up server, run script, deploy | Two problems merged: code breaks OR agent derails |
+| Receipts (strength) | 4 receipts: 1 community signal + 3 direct AFC responses | 4 receipts: 2 personal experience + 2 industry research |
+| Current behavior documented | Yes — pay someone, give up, use GUI alternatives | Yes — debug alone, waste credits, abandon projects |
+| Unanswered risk size | Medium — how often, would they pay? | Medium — how many users, what solves it? |
+| Access to matched people | Strong — 4,000 WHMCS, 600 Telegram, AFC | Weak — needs Agentic AI users specifically |
+| 4-day learning potential | High — can reach people directly, ask specific questions | Lower — harder to find and reach affected users |
+| Fit with time/money | Fits — no capital needed, uses existing skills | Fits — uses AI agent expertise |
+| Durability question | Will this still matter in 6 months? | Will this still matter in 6 months? |
+
+### Strongest case for Finalist 1 (Terminal/SSH)
+
+1. **Receipts are independent and diverse** — 4 different people, 3 different responses (fear of damage, visual learner barrier, complete beginner)
+2. **Access is immediate** — 4,000 WHMCS users already paying for tech, 600 Telegram users already engaged
+3. **Triggering moment is specific** — "need to set up a server, run a script, or deploy something requiring terminal"
+4. **Four days can change my mind** — ask 10 people "describe a recent time you avoided terminal" and get clear answer
+5. **Current workaround visible** — they pay someone, give up, or find GUI alternatives
+
+### Strongest case against Finalist 1 (Terminal/SSH)
+
+1. **Competition exists** — free tutorials, YouTube, Stack Overflow
+2. **May be one-time pain** — people learn once and done
+3. **Uncertainty on payment** — might not pay, just endure
+
+### Strongest case for Finalist 2 (AI Debugging + Context)
+
+1. **Industry-validated problem** — research shows all 4 major tools have same issues
+2. **Fits expertise** — best skill is working with AI agents
+3. **Personal experience is real** — sqlite3→mysql failure happened
+4. **Growing market** — more people using Agentic AI tools
+
+### Strongest case against Finalist 2 (AI Debugging + Context)
+
+1. **Hard to reach people** — need users who've hit this specific problem
+2. **Two problems merged** — harder to research, less clear focus
+3. **Access is weak** — your existing audience (WHMCS, Telegram) may not be Agentic AI users
+4. **Industry may solve it** — tools are improving fast
+
+### Most important unknown for each
+
+- **Finalist 1:** Would they actually pay for help, or just endure?
+- **Finalist 2:** Can I reach enough people who experience this?
+
+### What four days can answer
+
+- **Finalist 1:** Talk to 10+ WHMCS/Telegram users. Ask: "Describe a recent time you needed to use terminal but didn't know how." Then: "What did you do? Would you pay for help?"
+- **Finalist 2:** Find and interview Agentic AI users. Harder — may need to post in specific communities, not your existing reach.
+
+### Recommendation
+
+**Finalist 1 (Terminal/SSH)** — because:
+1. Clear path to evidence in 4 days
+2. Your existing audience matches the problem
+3. Specific triggering moment
+4. Current workarounds are visible (pay someone, give up)
+
+### Evidence that could reverse this recommendation
+
+If in 4 days I find:
+- Terminal problem is one-time learning, not recurring
+- Everyone already has a solution they tolerate
+- No one would pay for help
+
+Then switch to Finalist 2 or drop both.
+
+---
+
+### Chosen problem
+
+**Person:**
+AFC community members, aspiring self-hosters, and developers new to the command line who need to interact with a server but feel intimidated by terminal.
+
+**Triggering moment:**
+Need to set up a server, run a script, or deploy something requiring terminal.
+
+**Current behavior or workaround:**
+Feel intimidated, avoid it, pay someone to do simple tasks, or give up entirely.
+
+**Observed consequence:**
+- Money: paying others to do simple tasks
+- Time: researching GUI alternatives
+- Missed opportunities: can't self-host, can't automate
+
+**Strongest receipt:**
+"I have seen several mentions of users not knowing how to use terminal or basic lack of understanding of the major difference between coding and using terminal." — AFC community signal
+
+**Strongest countersignal:**
+Some users figure it out on their own; plenty of free tutorials exist.
+
+**What remains UNKNOWN:**
+- How often this happens to the same person (recurring vs one-time)
+- How many would actually pay for help vs just enduring
+- Whether current solutions (tutorials, YouTube) already work well enough
+
+**Why this problem gets four research days:**
+Clear path to evidence. Your existing audience (WHMCS users, Telegram users) matches the problem. Specific triggering moment. Current workarounds are visible. Four days can answer whether people would pay.
+
+### Reach List
+
+| Person or place | Why matched | Warm, cold, public, or unknown | First research move |
+|---|---|---|---|
+| AFC members who already responded | Already voiced the problem | Warm | Follow up: "Can you describe a recent time this happened?" |
+| WHMCS users (4,000) | Already paying for tech, likely server-adjacent | Warm (existing customer) | DM: "When's the last time you needed to use terminal and didn't know how?" |
+| Telegram users (600) | Engaged, reachable | Warm | Post in group: "Quick question for those who use servers" |
+| AFC community general | Problem first surfaced here | Public | Post asking about terminal experiences |
+| Reseller contacts ("hustlers") | Always looking for new income streams, technical | Warm | Message directly about their terminal experiences |
+| r/selfhosted subreddit | People trying to self-host | Public | Browse threads, comment asking about terminal struggles |
+| r/commandline subreddit | Terminal users | Public | Post or search for "intimidated" posts |
+| DevOps/Friendly community | People learning Linux | Public | Observe or post in relevant channels |
+| YouTube tutorial comments | People struggling with terminal | Public | Read comments on popular terminal tutorials |
+| Server setup services (digitalocean, linode docs) | People following guides | Public | Check comments/questions sections |
+
+### Parked finalist
+
+**Problem:** AI Debugging Distance + Context Pollution
+
+**Why it is parked:**
+Harder to reach matched people. Your existing audience (WHMCS, Telegram) may not be Agentic AI users. Access is weak — would need to find users in specific communities, not your existing reach. Also two problems merged makes research less focused.
+
+**Evidence that could bring it back:**
+If Terminal/SSH research shows: (1) problem is one-time only, (2) everyone has a tolerable solution, (3) no one would pay. Or if you find a clear path to reach Agentic AI users in your network.
+
+---
+
+### Research questions
+
+#### Question 1: How often does this problem happen?
+
+**Research question:** When someone encounters a task requiring terminal/SSH, how often does the intimidation or confusion actually stop them? Is it a one-time learning moment or a recurring pain?
+
+**Decision this will inform:** Go, Change, or No Go (Day 7)
+
+**Assumption underneath it:** The problem is recurring for the same person, not a one-time learning curve they get past.
+
+**Evidence that would raise confidence:**
+- Multiple recent incidents described by the same person
+- People describe it happening "every time" or "regularly"
+- The problem comes up across different tasks, not just one tutorial
+
+**Evidence that would lower confidence:**
+- People describe it as "I learned once and now I'm fine"
+- After one successful experience, the problem goes away
+- The triggering moment only happens once per person (first server setup)
+
+**Best source or matched person:** WHMCS users who have set up servers, AFC members who've responded
+
+**Day 4, Day 5, or several days:** Days 4-5 (receipts and behavior)
+
+---
+
+#### Question 2: What do people do now? Do current alternatives work?
+
+**Research question:** When someone hits this problem, what do they actually do? Do free tutorials, YouTube, and Google searches solve it for them?
+
+**Decision this will inform:** Go, Change, or No Go (Day 7)
+
+**Assumption underneath it:** Current solutions (tutorials, YouTube, free help) don't work well enough for this audience.
+
+**Evidence that would raise confidence:**
+- People describe frustration with tutorials ("too advanced," "assumes knowledge")
+- People give up or pay someone instead of figuring it out
+- Current search results are overwhelming or confusing
+
+**Evidence that would lower confidence:**
+- People say "I just looked it up on YouTube and figured it out"
+- Free resources are working fine
+- The problem solves itself after basic learning
+
+**Best source or matched person:** WHMCS users, Telegram users, r/selfhosted
+
+**Day 4, Day 5, or several days:** Days 4-5 (alternatives)
+
+---
+
+#### Question 3: What's the actual cost? Would they pay?
+
+**Research question:** What does this problem actually cost someone in time, money, and missed opportunities? When it happens, would they pay for help or just endure?
+
+**Decision this will inform:** Go, Change, or No Go (Day 7)
+
+**Assumption underneath it:** People would pay for a solution rather than just enduring or using free alternatives.
+
+**Evidence that would raise confidence:**
+- People describe paying someone to do simple tasks
+- People express frustration strong enough to pay
+- The cost (time wasted, money paid) adds up noticeably
+
+**Evidence that would lower confidence:**
+- People say "I just deal with it" or "it's not that big of a deal"
+- No one has ever paid for help with this
+- Free solutions are good enough
+
+**Best source or matched person:** Reseller contacts (hustlers), AFC members, WHMCS users
+
+**Day 4, Day 5, or several days:** Days 5-6 (conversations about cost and payment)
+
+---
+
+### Dangerous assumptions identified
+
+1. **Recurrence** — Problem happens repeatedly, not one-time
+2. **Inadequate alternatives** — Current tutorials/solutions don't work
+3. **Payment willingness** — People would pay for help
+
+If any of these three assumptions fails, the Day 7 decision changes to No Go or Change.
+
+---
+
+## Day 3 - Problem Research Brief
+
+### Chosen problem
+
+**Person:**
+AFC community members, aspiring self-hosters, and developers new to the command line who need to interact with a server but feel intimidated by terminal.
+
+**Triggering moment:**
+Need to set up a server, run a script, or deploy something requiring terminal.
+
+**Current behavior or workaround:**
+Feel intimidated, avoid it, pay someone to do simple tasks, or give up entirely.
+
+**Observed consequence:**
+- Money: paying others to do simple tasks
+- Time: researching GUI alternatives
+- Missed opportunities: can't self-host, can't automate
+
+**Strongest receipt:**
+"I have seen several mentions of users not knowing how to use terminal or basic lack of understanding of the major difference between coding and using terminal." — AFC community signal
+
+Plus 3 direct responses:
+- Fear of breaking production systems
+- Visual learner can't keep up
+- Complete beginner
+
+**Strongest countersignal:**
+Some users figure it out on their own; plenty of free tutorials exist.
+
+**What remains UNKNOWN:**
+- How often this happens (recurring vs one-time)
+- How many would actually pay
+- Whether current solutions work well enough
+
+**Why this problem gets four research days:**
+Clear path to evidence. Your existing audience matches the problem. Specific triggering moment. Current workarounds visible. Four days can answer whether people would pay.
+
+---
+
+### Reach List
+
+**Fastest three matched paths:**
+1. AFC members who already responded — Warm — Follow up
+2. WHMCS users (4,000) — Warm — DM existing customers
+3. Telegram users (600) — Warm — Post in group
+
+**Remaining honest paths:**
+4. AFC community general — Public
+5. Reseller contacts — Warm
+6. r/selfhosted — Public
+7. r/commandline — Public
+8. DevOps communities — Public
+9. YouTube tutorial comments — Public
+10. Server provider docs — Public
+
+**Reach risk:**
+MEDIUM — Can reach warm paths first, but public paths may be needed for volume.
+
+---
+
+### Research questions
+
+**Question 1: How often does this problem happen?**
+- Decision: Go/Change/No Go (Day 7)
+- Assumption: Problem is recurring, not one-time
+- Raises confidence: People describe it happening "regularly" or "every time"
+- Lowers confidence: "I learned once and now I'm fine"
+- Best source: WHMCS users, AFC members
+- Days: 4-5
+
+**Question 2: What do people do now? Do current alternatives work?**
+- Decision: Go/Change/No Go (Day 7)
+- Assumption: Current solutions don't work well enough
+- Raises confidence: People give up or pay someone instead
+- Lowers confidence: "I figured it out on YouTube"
+- Best source: WHMCS, Telegram, r/selfhosted
+- Days: 4-5
+
+**Question 3: What's the actual cost? Would they pay?**
+- Decision: Go/Change/No Go (Day 7)
+- Assumption: People would pay for help
+- Raises confidence: People describe paying someone
+- Lowers confidence: "I just deal with it"
+- Best source: Resellers, AFC, WHMCS
+- Days: 5-6
+
+---
+
+### Decision rules
+
+**GO when:**
+At least 5 out of 8+ people interviewed describe the problem as recurring (happens more than once), AND at least 3 describe a real cost (time wasted, money paid, opportunity missed), AND at least 2 express willingness to pay for a solution.
+
+**CHANGE when:**
+- Problem is one-time only (people learn once and it's solved)
+- Current alternatives work fine (people successfully use YouTube/tutorials)
+- Problem is narrower than expected (only affects complete beginners, not the broader audience)
+
+**NO GO when:**
+- Cannot reach enough matched people (fewer than 5 interviews in 4 days)
+- Everyone has a tolerable solution already
+- No one would pay for help (universal "I just deal with it")
+- Problem is too rare to matter
+
+**Biggest risk these rules may miss:**
+The problem is real but the market is too small. Even if people experience the problem, not enough would pay to make a business. Phase 2 would need to test willingness to pay more directly.
+
+---
+
+### Durable value question
+
+**What may become easy or free:**
+AI agents getting better at explaining terminal commands step-by-step. More and better free tutorials. GUI alternatives improving.
+
+**What may still depend on context, workflow, trust, access, data, or a relationship:**
+Actually doing the setup for them (not just explaining). Troubleshooting when it breaks. Personalized help for their specific situation. Having someone to call when stuck.
+
+**Evidence Phase 2 should look for:**
+Whether people value "someone who will do it for me" vs "someone who will teach me."
+
+### Solution space is open
+
+The research is NOT limited to "learning terminal." During research, explore what actually solves the problem:
+- Automating server setup
+- Running useful scripts
+- Self-hosting services
+- Deployment pipelines
+- Someone who does it for them
+- A hybrid (teach + do)
+
+The goal is to find what people would actually pay for, not to assume a product form upfront.
+
+---
+
+### Things we are not choosing yet
+
+- Product form
+- Features
+- Name
+- Price
+- Promise
+- Build tool
+
+---
+
+### Parked finalist
+
+**Problem:** AI Debugging Distance + Context Pollution
+
+**Why parked:** Harder to reach matched people. Access is weak — would need to find users in specific communities, not your existing reach. Also two problems merged makes research less focused.
+
+**Evidence that could bring it back:**
+If Terminal/SSH research shows: (1) problem is one-time only, (2) everyone has a tolerable solution, (3) no one would pay. Or if you find a clear path to reach Agentic AI users in your network.
 
 ---
 
