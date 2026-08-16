@@ -1,3 +1,12 @@
-# Track these files only
-!/BUILD.md
-!/CONTEXT.md
+# Ignore .git directory
+.git/
+.gitignore
+
+# Ignore large binary files and caches
+*.log
+*.tmp
+*.swp
+.DS_Store
+Thumbs.db
+node_modules/
+*.bak
