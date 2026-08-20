@@ -1,6 +1,8 @@
 # Ignore .git directory
 .git/
 .gitignore
+.gitignore_track
+.backup-timestamp
 
 # Ignore large binary files and caches
 *.log
