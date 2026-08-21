@@ -92,3 +92,8 @@ Curated durable facts go here. Daily raw notes live in `memory/YYYY-MM-DD.md`.
 - Show pending orders with status **Pending** (not Active) - these are paid orders awaiting fulfillment
 - IMPORTANT: Use tblorders table, NOT tblinvoices. Order status field values are: Active, Pending, Cancelled, Completed, Fraud
 - WHMCS admin folder renamed to Zxn8u4jnn for security*
+
+## Promoted From Short-Term Memory (2026-08-21)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-18.md:4:4 -->
+- Summary: Daily GitHub backup ran at 2:00 AM UTC — working tree clean, nothing to commit [score=0.857 recalls=0 avg=0.620 source=memory/2026-08-18.md:4-4]
