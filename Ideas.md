@@ -116,6 +116,13 @@ Personal ideas to develop, expand, and track. Updated on request.
     - Goal: create recurring revenue through subscriptions or ads
     - *Status: Just added*
 
+15. **IPTV Support Helper Bot**
+    - Separate Telegram bot that lives in your group
+    - Answers common support questions automatically
+    - FAQ stored in simple text file - easy to add/update questions
+    - Keywords: how to pay, cant login, buffering, channels not working, how to setup, m3u, portal, etc.
+    - *Status: Just added*
+
 ---
 
 ## How this works
