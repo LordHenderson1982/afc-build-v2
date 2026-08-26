@@ -123,6 +123,13 @@ Personal ideas to develop, expand, and track. Updated on request.
     - Keywords: how to pay, cant login, buffering, channels not working, how to setup, m3u, portal, etc.
     - *Status: Just added*
 
+16. **Shopify → WHMCS Credit Automation**
+    - When someone buys $50 in ebooks on Shopify, they get $50 WHMCS credit automatically
+    - Shopify webhook → PHP script → WHMCS API (AddCredit)
+    - Match email from Shopify order to WHMCS client, add credit
+    - Script: Receive Shopify webhook, parse order, find WHMCS client by email, call AddCredit API
+    - *Status: Just added*
+
 ---
 
 ## How this works
