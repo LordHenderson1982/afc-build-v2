@@ -39,6 +39,7 @@ Curated durable facts go here. Daily raw notes live in `memory/YYYY-MM-DD.md`.
 11. **Publish book in English** - sell globally
 12. **Build reader community** - create vibrant community with monetization
 13. Visa/immigration planning for USA move
+14. **Dirty Wheel of Fortune** - interactive game for chat/group fun
 
 ## Key Contacts
 - Savage Admin: 572118258 (Telegram)
