@@ -88,6 +88,10 @@ Curated durable facts go here. Daily raw notes live in `memory/YYYY-MM-DD.md`.
 ---
 *Last updated: 2026-06-18
 
+## Todo - Next Session
+- [ ] Fix incorrect stuff in FAQ (user mentioned some incorrect info)
+- [ ] Shopify automation didn't work - troubleshoot why
+
 ## Notes
 - Savage Admin runs a WHMCS billing system for hosting plans
 - Show pending orders with status **Pending** (not Active) - these are paid orders awaiting fulfillment
