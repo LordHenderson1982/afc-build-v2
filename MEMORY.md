@@ -102,3 +102,10 @@ Curated durable facts go here. Daily raw notes live in `memory/YYYY-MM-DD.md`.
 
 <!-- openclaw-memory-promotion:memory:memory/2026-08-18.md:4:4 -->
 - Summary: Daily GitHub backup ran at 2:00 AM UTC — working tree clean, nothing to commit [score=0.857 recalls=0 avg=0.620 source=memory/2026-08-18.md:4-4]
+
+## Promoted From Short-Term Memory (2026-08-30)
+
+<!-- openclaw-memory-promotion:memory:memory/2026-08-27.md:4:5 -->
+- Todo for Tomorrow (2026-08-28): [ ] Fix incorrect stuff in FAQ (user mentioned some incorrect info); [ ] Shopify automation didn't work - troubleshoot why [score=0.857 recalls=0 avg=0.620 source=memory/2026-08-27.md:4-5]
+<!-- openclaw-memory-promotion:memory:memory/2026-08-27.md:8:9 -->
+- Notes: IPTV helper bot is working with text menu; Comprehensive FAQ pushed to GitHub (44 entries) [score=0.857 recalls=0 avg=0.620 source=memory/2026-08-27.md:8-9]
