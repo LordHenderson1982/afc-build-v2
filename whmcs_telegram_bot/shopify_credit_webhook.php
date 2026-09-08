@@ -1,51 +1,60 @@
 <?php
 /**
- * Shopify to WHMCS Credit Automation
+ * Shopify to WHMCS Credit Automation - DEBUG VERSION
  * 
- * Set up in Shopify:
- * 1. Settings → Notifications → Webhooks
- * 2. Create webhook: Order created + Paid
- * 3. URL: https://veilhosts.shop/plans/shopify_credit_webhook.php
- * 
- * This script receives the webhook, finds the WHMCS client by email, and adds credit
+ * This version adds extensive logging to diagnose the issue
  */
 
-// Config - WHMCS API (from your existing setup)
+$logFile = '/home/apfkgyeksbf/public_html/plans/shopify_credit.log';
+
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
+
+// Debug: log the raw input
+$debugLog = "\n=== " . date('Y-m-d H:i:s') . " ===\n";
+$debugLog .= "RAW: " . substr($json, 0, 1000) . "\n";
+$debugLog .= "Parsed JSON: " . json_encode($data) . "\n";
+file_put_contents($logFile, $debugLog, FILE_APPEND);
+
+// If no data, return early
+if (empty($data)) {
+    echo "No data received";
+    exit;
+}
+
+// Config - WHMCS API
 $whmcs_api = array(
     'url' => 'https://veilhosts.shop/includes/api.php',
     'identifier' => 'WhxUDRFGPYKX8OibgI0gJwo7XAnUdJfZ',
     'secret' => 'GhnpSHejTbuAbmsNIQ0M38yJ3tHrzPIg'
 );
 
-// Log file for debugging
-$logFile = '/home/apfkgyeksbf/public_html/plans/shopify_credit.log';
-
-// Get the JSON from Shopify
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
-
-// Log incoming webhook
-$logMsg = date('Y-m-d H:i:s') . " | Received: " . substr($json, 0, 500) . "\n";
-file_put_contents($logFile, $logMsg, FILE_APPEND);
-
-// Only process paid orders
+// Only process paid orders - Shopify sends 'paid'
 $financialStatus = $data['financial_status'] ?? '';
-if ($financialStatus !== 'paid' && $financial_status !== 'paid') {
-    echo "Not a paid order, ignoring";
+$debugLog = "financial_status = '$financialStatus'\n";
+file_put_contents($logFile, $debugLog, FILE_APPEND);
+
+if ($financialStatus !== 'paid') {
+    echo "Not a paid order (status: $financialStatus)";
     exit;
 }
 
-// Get email from Shopify order
-$email = $data['email'] ?? '';
+// Get email - try multiple possible fields
+$email = $data['email'] ?? $data['customer']['email'] ?? $data['contact_email'] ?? '';
+$debugLog = "email = '$email'\n";
+file_put_contents($logFile, $debugLog, FILE_APPEND);
+
 if (empty($email)) {
     echo "No email found";
-    file_put_contents($logFile, date('Y-m-d H:i:s') . " | No email in order\n", FILE_APPEND);
     exit;
 }
 
-// Get total amount (in cents, convert to dollars)
-$totalPrice = $data['total_price'] ?? 0;
+// Get total amount
+$totalPrice = $data['total_price'] ?? $data['total_price_set']['shop_money']['amount'] ?? 0;
 $amount = (float)$totalPrice;
+
+$debugLog = "amount = $amount\n";
+file_put_contents($logFile, $debugLog, FILE_APPEND);
 
 if ($amount <= 0) {
     echo "No amount";
@@ -55,10 +64,12 @@ if ($amount <= 0) {
 // Find WHMCS client by email
 $client = whmcs_api_call('GetClients', array('search' => $email));
 
+$debugLog = "GetClients response: " . json_encode($client) . "\n";
+file_put_contents($logFile, $debugLog, FILE_APPEND);
+
 if (empty($client['clients']['client'])) {
-    $logMsg = date('Y-m-d H:i:s') . " | Client not found: $email\n";
-    file_put_contents($logFile, $logMsg, FILE_APPEND);
-    echo "Client not found";
+    echo "Client not found: $email";
+    file_put_contents($logFile, date('Y-m-d H:i:s') . " | Client not found: $email\n", FILE_APPEND);
     exit;
 }
 
@@ -70,12 +81,18 @@ if (isset($clients[0])) {
     $clientId = $clients['id'];
 }
 
+$debugLog = "clientId = $clientId\n";
+file_put_contents($logFile, $debugLog, FILE_APPEND);
+
 // Add credit to client
 $result = whmcs_api_call('AddCredit', array(
     'clientid' => $clientId,
     'amount' => $amount,
     'description' => 'Shopify order credit'
 ));
+
+$debugLog = "AddCredit response: " . json_encode($result) . "\n";
+file_put_contents($logFile, $debugLog, FILE_APPEND);
 
 $logMsg = date('Y-m-d H:i:s') . " | Added $amount credit to client $clientId ($email)\n";
 file_put_contents($logFile, $logMsg, FILE_APPEND);
@@ -100,6 +117,8 @@ function whmcs_api_call($action, $postData = array()) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     
     $response = curl_exec($ch);
     curl_close($ch);
