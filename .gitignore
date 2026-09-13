@@ -1,16 +1,9 @@
-# Ignore .git directory
 .git/
-.gitignore
-.gitignore_track
-.backup-timestamp
-
-# Ignore large binary files and caches
-*.log
-*.tmp
-*.swp
-.DS_Store
-Thumbs.db
 node_modules/
-*.bak.openclaw/
-*.bak
-*.backup-*
+*.jpg
+*.png
+*.gif
+*.zip
+*.tar.gz
+*.log
+.DS_Store
